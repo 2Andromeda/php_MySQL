@@ -88,5 +88,64 @@ print_r($array3);
 var_dump($grammer);//변수 정보 확인하는 함수
 
 $age = 15;
-$myAge = $age ? : 18;
+$myAge = $age ? : 18;//삼항 연산자 축약형
+// $myAge = $age ? 15:18; //삼항 연산자
 echo $myAge;
+
+$str1 = "안녕하세요";
+$str2= "PHP";
+$result1 = $str1 ?? $str2; //NULL 병합 연산자, str1이 null이 아닌경우 str1을 대입하고 null이면 str2를 대입
+
+$str3 = $str1.$str2; //문자열 연결 연산자
+$str1 .= $str2; //문자열 추가 연산자 str1에 str1+str2로 변경 대입
+
+$result3 = $grammer instanceof Grammer;
+echo "<br>".$result3;
+
+//스위치 문 연습
+$score =90;
+switch($score){
+    case 100:
+        echo "점수는 100점 입니다.";
+        break;
+    case 90:
+        echo "점수는 90점 입니다.";
+        break;
+    default:
+        echo "점수는 70점 입니다.";
+        break;
+}
+
+//match 표현식으로 할시, match는 === 연산자로 적용 (형태도 확인함)
+$message = match($score){
+    100,
+    90 => "찾을 수 없음.",
+    80 => "80점입니다.",
+    70, 60, "55" => "D학점 입니다.",
+    default => "과락 이하입니다."
+};
+echo "<br>".$message;
+
+//php 는 다른 언어의 배열에 대한 for문과 달리 foreach를 사용
+$fruits = [
+    "apple" => "사과",
+    "strawberry" => "딸기",
+    "banana" => "바나나"
+];
+echo "<br>값만 사용 :";
+foreach ($fruits as $fruit){
+    echo "{$fruit}<br>";
+}
+
+echo "키와 값 모두를 사용<br>";
+foreach ($fruits as $eng => $kor){
+    echo "{$eng} => {$kor}<br>";
+}
+
+//goto문 연습
+goto jump;
+
+echo "이건 점프 됩니다.";
+
+jump:
+echo "여기는 인쇄 됩니다.<br>";
