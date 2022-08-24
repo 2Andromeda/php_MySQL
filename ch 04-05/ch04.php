@@ -149,3 +149,151 @@ echo "이건 점프 됩니다.";
 
 jump:
 echo "여기는 인쇄 됩니다.<br>";
+
+//함수 파트
+function sayHello2($string){
+    echo "{$string}<br>";
+}
+sayHello2("안녕하세요");
+
+//가변 길이 인수 인식 하기(스플랫(...))
+function sum(...$numbers){
+    $acc = 0;
+    foreach($numbers as $n){
+        $acc += $n;
+    }
+    return $acc;
+}
+
+echo sum(1,2,3,4);
+
+//데이터 유형 미리 지정
+function myFunc2(
+    string $str,
+    int $int,
+    float $float,
+    mixed $mixed, // 혼합형 (php 8)
+    object $object,
+    string|int|float $confused //유니언형(php 8)
+){
+    return;
+}
+
+//함수의 반황 유형 미리 설정
+function myFunc3(mixed $number3) : int|string//(php 8 부터 가능)
+{
+    return $number3;
+}
+echo "<br>".myFunc3(1.1);
+
+//명명된 매개변수 방법
+function myFunc4($names, $nums){
+    echo "저의 이름은 {$names}입니다. 나이는 {$nums}살 입니다.<br>";
+}
+
+myFunc4(nums: 20, names: "홍길동");//매개변수 입력 순서가 바뀌어도 아무 문제 없음.
+
+//익명함수(람다함수, 일급 함수)
+$lambda = function($names1){
+    return $names1;
+};
+
+echo $lambda("홍길동")."<br>";
+
+//화살표 함수 형식
+$lambda2 =fn()=>"홍길동";
+echo $lambda2();
+
+class Member{
+    var $id = 'hong';
+    public $name = '홍길동';
+    protected $nickname = '쾌도 홍길동';
+    private $age = 20;
+
+    function say(string|int $string5, $number5) : mixed
+    {
+        $array = array($string5, $number5);
+        return $array;
+    }
+}
+
+$member = new Member();
+echo $member->id;
+echo $member->name;
+// echo $member->nickname;
+// echo $member->age."<br>";
+
+$result = $member->say(string5: 'Hello World', number5: 1);
+print_r($result);
+
+class FruitClass{
+    public $name;
+    public $color;
+
+    function set_fruit(string $name, string $color){
+        $this->name = $name;//public $name에다가 string $name을 대입
+        $this->color = $color;
+    }
+
+    function get_fruit() :string
+    {
+        $string = "이 과일은 {$this->name} 입니다. 색깔은 {$this->color} 입니다.";
+        return $string;
+    }
+}
+
+$apple = new FruitClass();
+$apple->set_fruit(name: '사과', color: '빨강');
+echo $apple->get_fruit()."<br>";
+
+class ExamClass{
+    protected $name;
+
+    public function __construct(){
+        $this->name="홍길동";
+        echo $this->name;
+    }
+}
+new ExamClass();
+
+class ExamClass2{
+    public string $id;
+    public string $name;
+    public mixed $nickname;
+
+    public function __construct(string $id, string $name, mixed $nickname){
+        $this->id = $id;
+        $this->name = $name;
+        $this->nickname = $nickname;
+    }
+}
+
+$id = "home"; $name = "홍길동"; $nickname="쾌도 홍길동";
+$example = new ExamClass2(id: $id, name: $name, nickname:$nickname);
+echo $example->id;
+
+//php 8버전
+class ExamClass3{
+    public function __construct(
+        public string $id,
+        public string $name,
+        public mixed $nickname
+    ) {}
+
+    //소멸자
+    function __destruct(){
+        echo "클래스가 소멸됩니다.<br>";
+    }
+}
+
+$example2 = new ExamClass3(id: $id, name: $name, nickname:$nickname);
+echo "<br>".$example2->name."<br>";
+
+class ExamClass4 extends ExamClass3{
+    function say(){
+        echo "안녕하세요";
+    }
+}
+
+$example3 =new ExamClass4(id: $id, name: $name, nickname:$nickname);
+$example3->say();
