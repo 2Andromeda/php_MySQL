@@ -426,7 +426,7 @@ class MyClass2{
 echo MyClass2::say();
 
 //늦은 정적 바인딩
-class A{
+class A1{
     public static function myFunc()
     {
         static::say();
@@ -436,6 +436,17 @@ class A{
     }
 }
 
-class B extends A{
-    
+class B extends A1{
+    public static function test(){
+        A1::myFunc();
+        parent::myFunc();
+        self::myFunc();
+    }
+
+    public static function say(){
+        echo "자식 클래스 호출<br>";
+    }
+
 }
+
+B::test();
