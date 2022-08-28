@@ -294,6 +294,148 @@ class ExamClass4 extends ExamClass3{
         echo "안녕하세요";
     }
 }
+//declare(strict_types=1);// strict 모드 타입 체크모드
 
 $example3 =new ExamClass4(id: $id, name: $name, nickname:$nickname);
 $example3->say();
+
+//readonly 속성 -> 한번만 초기화 가능
+class ExamClass5{
+    public readonly string $str;
+    public function say(string $str){
+        $this->str = $str;
+        echo $this->str."<br>";
+    }
+}
+
+$str = "안녕하세요";
+$example4= new ExamClass5();
+$example4->say(str: "안녕하세요 안쪽"); // 정상 대입 및 정상 실행
+//$example4->say(str: "안녕하세요 안쪽2"); // 오류 발생
+
+interface Animal{
+    public function animal_type($type);//인터페이스의 메서드는 내부에 작동하는 것이 있지는 않다.
+}
+//인터페이스 예제
+
+interface WebApp{
+    public function register($id, $password, $name);
+    public function login($id, $password);
+    public function logout($id);
+}
+
+interface CMS{
+    public function post($subject);
+}
+
+class WebSite implements WebApp, CMS
+{
+    public function register($id, $password, $name){
+        echo "사용자 등록 : 아이디={$id}, 이름={$name} <br>";
+    }
+    public function login($id, $password){
+        echo "로그인 : {$id}<br>";
+    }
+    public function logout($id){
+        echo "로그아웃: {$id}<br>";
+    }
+    public function post($subject){
+        echo "게시물 등록 : {$subject}<br>";
+    }
+
+}
+
+$website = new WebSite;
+$id = 'hong';
+$password =1234;
+$name = '홍길동';
+$subject = '게시물 제목';
+
+$website->register(id: $id, password:$password, name: $name);
+$website->login(id: $id, password: $password);
+$website->post(subject:$subject);
+$website->logout(id: $id);
+
+//추상 클래스
+abstract class CellPhones
+{
+    public string $type;
+    public string $name;
+    public int $year;
+    public function describe(){
+        echo "{$this->type}의 이름은 {$this->name}입니다. {$this->year}에 출시되었습니다.<br>";
+    }
+
+    abstract public function greet();
+}
+
+class Samsumg extends CellPhones{
+    public function greet(){
+        echo "지니야 안녕.<br>";
+    }
+}
+
+$phone1 = new Samsumg();
+$phone1->type="폴더블";
+$phone1->name="z플립";
+$phone1->year= "2021";
+
+$phone1->describe();
+$phone1->greet();
+
+
+trait Dog{
+    public string $type;
+    public string $name;
+    public int $age;
+
+    public function describe(){
+        echo "{$this->type}의 이름은 {$this->name}입니다. {$this->age}살 입니다.<br>";
+    }
+}
+
+trait Say2{
+    abstract public function greet();
+}
+
+class Animal2{
+    use Dog, Say2;
+
+    public function greet(){
+        echo "멍멍~ 안녕하세요.<br>";
+    }
+}
+
+$animal2 = new Animal2();
+$animal2->type = "강아지";
+$animal2->name = "담이";
+$animal2->age = 6;
+
+$animal2->describe();
+$animal2->greet();
+
+//정적 메서드
+class MyClass2{
+    public static $message = "Hello World<br>";
+
+    public static function say(){
+        return self::$message;
+    }
+}
+
+echo MyClass2::say();
+
+//늦은 정적 바인딩
+class A{
+    public static function myFunc()
+    {
+        static::say();
+    }
+    public static function say(){
+        echo "부모 클래스 호출<br>";
+    }
+}
+
+class B extends A{
+    
+}
