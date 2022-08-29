@@ -450,3 +450,73 @@ class B extends A1{
 }
 
 B::test();
+
+// //네임스페이스(namespace) use 그룹화
+// //구버전
+
+// use AnswerBook\User as User;
+// use AnswerBook\PHP\User as PhpUser;
+// use AnswerBook\Python\User as PythonUser;
+
+// //php 8버전
+
+// use AnswerBook\{
+//     User as User,
+//     PHP\User as PhpUser,
+//     Python\User as PythonUser
+// };
+
+//예외처리 1 Exception 클래스
+$msg2 = "예외 클래스 오류 발생";
+$code = 123;
+$e = new Exception($msg2, $code);
+
+echo "예외 코드 : ".$e->getCode();
+echo "<br>";
+echo "예외 메시지 : ".$e->getMessage();
+
+
+//사용자 정의 예외 처리 구문
+class MyException extends Exception{
+    public function myMessage($my_msg){
+        return $my_msg;
+    }
+}
+
+$e2 = new MyException($msg2, $code);
+
+echo $e2->myMessage("Exception 클래스를 상속 받았습니다.");
+echo "<br>";
+echo "예외 메시지 : ".$e->getMessage();
+echo "<br>";
+echo "예외 코드 : ".$e->getCode();
+
+// //throw 키워드 
+// //구버전
+// if($t==1){
+//     echo $t;
+// }else{
+//     throw new Exception();
+// }
+
+// //php 8버전
+// if($t==1||throw new Exception('틀렸습니다.')){
+//     echo $t;
+// }
+
+class MyException1 extends Exception{}
+class MyException2 extends Exception{}
+class MyException3 extends Exception{}
+
+$num = 2;
+try{
+    if ($num ==1) {throw new MyException1('숫자는 1입니다.');}
+    if ($num ==2) {throw new MyException2('숫자는 2입니다.<br>');}
+    if ($num ==3) {throw new MyException3('숫자는 3입니다.');}
+}catch(MyException1 $e){
+    echo "예외 메시지 : ".$e->getMessage();
+}catch(MyException2 $e){
+    echo "예외 메시지 :".$e->getMessage();
+}catch(MyException3 $e){
+    echo "예외 메시지 : ".$e->getMessage();
+}
